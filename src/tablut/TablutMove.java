@@ -1,8 +1,9 @@
 package tablut;
 
 import boardgame.Move;
+import coordinates.Coord;
+import coordinates.Coordinates;
 import tablut.TablutBoardState;
-import tablut.Coord;
 
 public class TablutMove extends Move {
 
@@ -43,11 +44,11 @@ public class TablutMove extends Move {
 	
 	/* Useful Getters */
 	public Coord getStartPosition() {
-		return new Coord(this.xStart, this.yStart);
+		return Coordinates.get(this.xStart, this.yStart);
 	}
 	
 	public Coord getEndPosition() {
-		return new Coord(this.xEnd, this.yEnd);
+		return Coordinates.get(this.xEnd, this.yEnd);
 	}
 	
     /* Members below here are only used by the server; Player agents

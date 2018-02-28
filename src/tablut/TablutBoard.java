@@ -6,82 +6,73 @@ import boardgame.Move;
 
 public class TablutBoard extends Board {
 
+	private TablutBoardState boardState;
+	
+	public TablutBoard() {
+		super();
+		boardState = new TablutBoardState();
+	}
+	
 	@Override
 	public int getWinner() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getScore(int player) {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardState.getWinner();
 	}
 
 	@Override
 	public void forceWinner(int win) {
-		// TODO Auto-generated method stub
-
+		boardState.setWinner(win);
 	}
 
 	@Override
 	public int getTurnPlayer() {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardState.getTurnPlayer();
 	}
 
 	@Override
 	public int getTurnNumber() {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardState.getTurnNumber();
 	}
 
 	@Override
 	public void move(Move m) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+		boardState.processMove((TablutMove) m);
 	}
 
 	@Override
 	public BoardState getBoardState() {
-		// TODO Auto-generated method stub
-		return null;
+		return boardState;
 	}
 
-	@Override
-	public String getNameForID(int player_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getNameForID(int p) {
+        return String.format("Player-%d", p);
+    }
 
-	@Override
-	public int getIDForName(String s) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int getIDForName(String s) {
+        return Integer.valueOf(s.split("-")[1]);
+    }
 
 	@Override
 	public int getNumberOfPlayers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public Move parseMove(String str) throws NumberFormatException, IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return new TablutMove(str);
 	}
 
 	@Override
 	public Object clone() {
-		// TODO Auto-generated method stub
-		return null;
+		TablutBoard board = new TablutBoard();
+		board.boardState = (TablutBoardState) boardState.clone();
+		return board;
 	}
 
 	@Override
 	public Move getRandomMove() {
-		// TODO Auto-generated method stub
-		return null;
+		return boardState.getRandomMove();
 	}
 
 }

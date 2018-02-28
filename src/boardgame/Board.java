@@ -68,8 +68,6 @@ abstract public class Board implements Cloneable {
     /** Return winner ID, DRAW or NOBODY if no winner yet. Or CANCELLED[0 | 1]
      * if the game has been cancelled as a result of a player action. */
     abstract public int getWinner();
-    
-    abstract public int getScore(int player);
 
     /** Set a winner without finishing the game. Argument may
      * be a player ID or DRAW. */

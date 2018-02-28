@@ -1,5 +1,8 @@
-package tablut;
+package coordinates;
 import java.util.List;
+
+import coordinates.Coordinates;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.lang.Math;
@@ -8,7 +11,7 @@ public class Coord {
 	public final int x; // make it final so they cannot be changed
 	public final int y;
 	
-	public Coord(int x, int y) {
+	Coord(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -43,8 +46,8 @@ public class Coord {
 		int i = start;
 		while (i != end) {
 			i += incr;
-			if (updateX) coords.add(new Coord(i, this.y));
-			if (updateY) coords.add(new Coord(this.x, i));
+			if (updateX) coords.add(Coordinates.get(i, this.y));
+			else if (updateY) coords.add(Coordinates.get(this.x, i));
 		}
 		return coords;
 	}
@@ -57,14 +60,6 @@ public class Coord {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Coord))
-			return false;
-		Coord c = (Coord) obj;
-		return this.x == c.x && this.y == c.y;
-	}
-	
-	@Override
 	public String toString() {
 		return String.format("(%d %d)", this.x, this.y);
 	}
@@ -73,27 +68,28 @@ public class Coord {
 	public static void main(String[] args) {
 		boolean testEquality = true;
 		boolean testBetweenCoords = true;
+		Coordinates.setAllCoordinates(9);
 		
-		Coord a = new Coord(1,1);
-		Coord b = new Coord(1,1);
-		Coord c = new Coord(1,2);
-		Coord d = new Coord(2,1);
+		Coord a = Coordinates.get(1, 1);
+		Coord b = Coordinates.get(1, 1);
+		Coord c = Coordinates.get(1, 2);
+		Coord d = Coordinates.get(2, 1);
 		List<Coord> coords = Arrays.asList(a,b,c,d);
 
 		if (testEquality) {
 			for (Coord coord1 : coords) {
 				for (Coord coord2 : coords) {
 					System.out.print(coord1.toString() + " =?= " + coord2.toString() + ": ");
-					System.out.println(coord1.equals(coord2));
+					System.out.println(coord1 == coord2);
 				}
 			}
 		}
 		
 		if (testBetweenCoords) {
-			Coord beg = new Coord(1, 1);
-			Coord endRow = new Coord(1, 4);
-			Coord endCol = new Coord(4, 1);
-			Coord endDiag = new Coord(4, 4);
+			Coord beg = Coordinates.get(1, 1);
+			Coord endRow = Coordinates.get(1, 4);
+			Coord endCol = Coordinates.get(4, 1);
+			Coord endDiag = Coordinates.get(4, 4);
 			coords = Arrays.asList(endRow, endCol, endDiag);
 			for (Coord co : coords) {
 				for (Coord start : Arrays.asList(beg, co)) {

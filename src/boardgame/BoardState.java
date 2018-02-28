@@ -16,5 +16,4 @@ abstract public class BoardState implements Cloneable {
     abstract public int firstPlayer();
     abstract public boolean gameOver();
     abstract public Move getRandomMove();
-    abstract public int getScore(int player);
 }
