@@ -24,9 +24,9 @@ public class TablutBoardState extends BoardState {
 	public static final boolean EASY_MOVEMENT = true;
 	
 	public static enum Piece { BLACK, WHITE, KING, EMPTY }
-	public static List<Coord> allGameCoords;
-	public static HashMap<Piece, String> piecesToSymbols;
-	public static HashMap<Piece, Integer> piecesToPlayer;
+	private static List<Coord> allGameCoords;
+	private static HashMap<Piece, String> piecesToSymbols;
+	private static HashMap<Piece, Integer> piecesToPlayer;
 	static {
 		piecesToSymbols = new HashMap<>();
 		piecesToSymbols.put(Piece.BLACK, "B");
