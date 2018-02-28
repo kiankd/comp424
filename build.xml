@@ -1,0 +1,47 @@
+<project>
+    <property name="target.version" value="1.8"/>
+    <property name="run.classpath" value="bin"/>
+    <property name="n_games" value="2"/>
+
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+
+    <!-- Compile ======================================================== -->
+    <target name="compile">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin" debug="false" includeantruntime="false" source="${target.version}" target="${target.version}"/>
+    </target>
+
+    <target name="debug">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin" debug="true" includeantruntime="false" source="${target.version}" target="${target.version}"/>
+    </target>
+
+    <!-- Run Client with StudentPlayer ======================================================== -->
+    <target name="student" depends="compile">
+        <java classpath="${run.classpath}" classname="boardgame.Client" fork="true">
+            <arg value="student_player.StudentPlayer"/>
+        </java>
+    </target>
+
+    <!-- Run server ==================================================================== -->
+    <target name="gui" depends="compile">
+        <java classpath="${run.classpath}" classname="boardgame.Server" fork="true"/>
+    </target>
+
+    <target name="server" depends="compile">
+        <java classpath="${run.classpath}" classname="boardgame.Server" fork="true">
+            <arg value="-k"/>
+            <arg value="-ng"/>
+        </java>
+    </target>
+
+    <!-- Run autoplay ====================================================== -->
+    <!-- Can specify a different value for n_games by supplying -Dn_games=10 at command line -->
+    <target name="autoplay" depends="compile">
+        <java classpath="bin" classname="autoplay.Autoplay" fork="true">
+            <arg value="${n_games}"/>
+        </java>
+    </target>
+</project>

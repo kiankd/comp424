@@ -1,0 +1,14 @@
+# Server version 0.08 running on ppl-1.CS.McGill.CA:8123
+# Game ID: 33
+# Board class: bohnenspiel.BohnenspielBoard
+# Timeout: 500
+# First Move Timeout: 30000
+# Date: Mon Mar 20 16:32:36 EDT 2017
+# Player 1: Player-0, 'xxxxxxxxx', running on ppl-1.CS.McGill.CA
+# Player 2: Player-1, 'xxxxxxxxx', running on ppl-1.CS.McGill.CA
+START Player-0 xxxxxxxxx
+START Player-1 xxxxxxxxx
+PIT 0 0
+PIT 1 0
+GAMEOVER TIMEOUT WINNER 1         Player-0 score: 0  Player-1 score: 0
+# Game ended: Mon Mar 20 16:32:39 EDT 2017
