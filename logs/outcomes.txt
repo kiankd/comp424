@@ -85,3 +85,13 @@
 104,GreedyPlayer,Human,0,GreedyPlayer,3,game00104.log,
 105,GreedyPlayer,Human,0,GreedyPlayer,6,game00105.log,
 106,GreedyPlayer,GreedyPlayer,0,GreedyPlayer,5,game00106.log,
+107,RandomPlayer,xxxxxxxxx,1,xxxxxxxxx,207,game00107.log,
+108,GreedyPlayer,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,5,game00108.log,USER CANCEL
+109,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,51,game00109.log,
+110,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,51,game00110.log,
+111,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,51,game00111.log,
+112,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,51,game00112.log,
+113,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,51,game00113.log,
+114,GreedyPlayer,RandomPlayer,0,GreedyPlayer,10,game00114.log,
+115,GreedyPlayer,RandomPlayer,0,GreedyPlayer,14,game00115.log,
+116,RandomPlayer,GreedyPlayer,1,GreedyPlayer,9,game00116.log,

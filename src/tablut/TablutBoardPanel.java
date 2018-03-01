@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class TablutBoardPanel extends BoardPanel implements 
-	MouseListener, MouseMotionListener, ComponentListener 
-{
+	MouseListener, MouseMotionListener, ComponentListener {
 	private static final long serialVersionUID = -7761120622454119879L;
 	
 	// Static constants about the GUI design.
@@ -37,7 +36,7 @@ public class TablutBoardPanel extends BoardPanel implements
 	static final int HIGHLIGHT_THICKNESS = 3;
 	static final int BOARD_DIM = TablutBoardState.BOARD_SIZE;
 	static final int PIECE_SIZE = 50;
-	static final int FONT_SIZE = 25;
+	static final int FONT_SIZE = (int) (PIECE_SIZE * 0.5);
 	static final int SQUARE_SIZE = (int) (PIECE_SIZE * 1.25); // Squares 25% bigger than pieces.
 	
     // The class below is for the purpose of constructing an individual piece on the board.
@@ -74,7 +73,8 @@ public class TablutBoardPanel extends BoardPanel implements
 			if (pieceType == Piece.KING) {
 				g.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE));
 				g.setColor(Color.BLACK); // Black font color
-				g.drawString("K", cx-9, cy+9);
+				int textMod = (int) (PIECE_SIZE * (9.0 / 50.0)); // helps with centering
+				g.drawString("K", cx - textMod, cy + textMod); 
 			}
 		}
     }
@@ -153,6 +153,7 @@ public class TablutBoardPanel extends BoardPanel implements
     	super.paint(g);
     }
     
+    // A bit sketchy, but has to be done to highlight possible moves for human.
     private void humanRepaint() {
     	bufferDirty = true;
         repaint();

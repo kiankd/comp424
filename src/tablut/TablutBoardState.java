@@ -53,7 +53,7 @@ public class TablutBoardState extends BoardState {
 	private Coord kingPosition;
 	private Random rand = new Random(1917);
 	private int turnPlayer;
-	private int turnNumber;
+	private int turnNumber = 1;
 	private int winner = Board.NOBODY;
 	
 	// Initial Board State creation. The genesis constructor.
@@ -190,13 +190,10 @@ public class TablutBoardState extends BoardState {
 	// Determines if a player has won by updating internal variable.
 	private void updateWinner() {
 		// Check if the king was captured -- MUSCOVITES WIN!
-		if (kingPosition == null) {
-			winner = MUSCOVITE;
-		}
+		if (kingPosition == null) { winner = MUSCOVITE; }
 		// Check if king is at corner -- SWEDES WIN!
-		else if (Coordinates.isCorner(kingPosition)) {
-			winner = SWEDE;
-		}
+		else if (Coordinates.isCorner(kingPosition)) { winner = SWEDE; }
+		else if (gameOver()) { winner = Board.DRAW; }
 	}
 	
 	/**
