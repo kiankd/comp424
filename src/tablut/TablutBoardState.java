@@ -118,7 +118,7 @@ public class TablutBoardState extends BoardState {
 		return new TablutBoardState(this);
 	}
 	
-	/* ----- Here and below are for dealing with moves. ----- */
+	/* ----- Here and below are for dealing with moves, and processing captures. ----- */
 	public void processMove(TablutMove m) throws IllegalArgumentException {
         if(!isLegal(m)) { // isLegal checks if the player is the correct player.
             throw new IllegalArgumentException(
@@ -148,9 +148,9 @@ public class TablutBoardState extends BoardState {
         	if (isOpponentPieceAt(enemy)) {
         		boolean canCapture = true;
         		
-    			// If the opponent is a king, we need to check if its at the center.
+    			// If the opponent is a king, we need to check if its at the center or the neighbors of center.
     			// If it is, then it can only be captured on all 4 sides.
-    			if (getPieceAt(enemy) == Piece.KING && Coordinates.isCenter(kingPosition)) {
+    			if (getPieceAt(enemy) == Piece.KING && Coordinates.isCenterOrNeighborCenter(kingPosition)) {
     				for (Coord possibleAlly : Coordinates.getNeighbors(enemy)) {
     					if (getPieceAt(possibleAlly) != Piece.BLACK) {
     						canCapture = false;

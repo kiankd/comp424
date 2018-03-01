@@ -36,9 +36,12 @@ import javax.swing.filechooser.FileFilter;
 public class ServerGUI extends JFrame
 implements BoardPanel.BoardPanelListener  {
     /** The list of games for which servers can be launched */
-    protected static final String[] BOARD_CLASSES = {"bohnenspiel.BohnenspielBoard"};
+    protected static final String[] BOARD_CLASSES = {"tablut.TablutBoard"};
     /** The list of players that can be launched */
-    protected static final String[] PLAYER_CLASSES = {"bohnenspiel.RandomBohnenspielPlayer", "bohnenspiel.GreedyBohnenspielPlayer","student_player.StudentPlayer"};
+    protected static final String[] PLAYER_CLASSES = {"tablut.RandomTablutPlayer", 
+    		"tablut.GreedyTablutPlayer", 
+    		"student_player.StudentPlayer",
+    };
     private static final int BOARD_SIZE = 800;
     private static final int LIST_WIDTH = 280;
 

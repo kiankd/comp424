@@ -49,7 +49,7 @@ import java.awt.EventQueue;
  */
 public class Server implements Runnable {
     protected static final String VERSION = "0.08";
-    protected static final int DEFAULT_PORT = 8123;
+    protected static final int DEFAULT_PORT = 6000;
 
     public static final int DEFAULT_TIMEOUT = 700;
     private static final int DEFAULT_TIMEOUT_CUSHION = 1000;
@@ -57,7 +57,7 @@ public class Server implements Runnable {
     public static final int FIRST_MOVE_TIMEOUT = 30000;
     private static final int FIRST_MOVE_TIMEOUT_CUSHION = 1000;
 
-    protected static final String DEFAULT_BOARDCLASS = "bohnenspiel.BohnenspielBoard";
+    protected static final String DEFAULT_BOARDCLASS = "tablut.TablutBoard";
 
     protected static final boolean DBGNET = false;
     protected static final boolean DUMPBOARD = false;

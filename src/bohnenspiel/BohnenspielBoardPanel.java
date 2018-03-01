@@ -120,9 +120,6 @@ implements MouseListener, MouseMotionListener, ComponentListener{
                Math.pow((centreY - clickY), 2)) < Math.pow(radius, 2);
     }
 
-
-
-
     public void mousePressed(MouseEvent arg0) {
         // No move have been requested. E.g. if reviewing history.
         if(list == null)

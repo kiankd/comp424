@@ -22,7 +22,8 @@ public class GreedyTablutPlayer extends TablutPlayer {
 		TablutMove bestMove = options.get(rand.nextInt(options.size()));
 		
 		// This greedy player seeks to capture as many opponents as possible.
-		int minNumberOfOpponentPieces = bs.getNumberPlayerPieces(bs.getOpponent());
+		int opponent = bs.getOpponent();
+		int minNumberOfOpponentPieces = bs.getNumberPlayerPieces(opponent);
 		boolean moveCaptures = false;
 		
 		// Iterate over move options and evaluate them.
@@ -34,7 +35,7 @@ public class GreedyTablutPlayer extends TablutPlayer {
 			cloneBS.processMove(move);
 			
 			// Check how many opponent pieces there are now, maybe we captured some!
-			int newNumberOfOpponentPieces = cloneBS.getNumberPlayerPieces(bs.getOpponent());
+			int newNumberOfOpponentPieces = cloneBS.getNumberPlayerPieces(opponent);
 			
 			// If this move caused some capturing to happen, then do it! Greedy!
 			if (newNumberOfOpponentPieces < minNumberOfOpponentPieces) {
@@ -53,8 +54,8 @@ public class GreedyTablutPlayer extends TablutPlayer {
 			}
 		}
 		
-		/* The below functionality could be included in the above loop to improve efficiency.
-		 * But, this written separately for the purpose of exposition to students. */
+		/* The king-functionality below could be included in the above loop to improve efficiency.
+		 * But, this is written separately for the purpose of exposition to students. */
 		
 		// If we are SWEDES we also want to check if we can get closer to the closest corner. Greedy!
 		// But let's say we'll only do this if we CANNOT do a capture.

@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.lang.Math;
 
 import coordinates.Coord;
 
@@ -30,18 +29,23 @@ public class Coordinates {
 		return allCoordinates[i][j];
 	}
 	
-	public static boolean isCorner(Coord c) {
-		return isCorner(c.x, c.y);
-	}
 	
-	// Very efficient way to check if something is a corner.
-	private static boolean isCorner(int i, int j) {
+	
+	public static boolean isCorner(Coord c) { return isCorner(c.x, c.y); }
+	public static boolean isCorner(int i, int j) { // Very efficient way to check if something is a corner.
 		if (i * j != 0) return i == size-1 && j == size-1;
 		return i + j == size - 1 || i + j == 0;
 	}
 	
-	public static boolean isCenter(Coord c) {
-		return c.x == 4 && c.y == 4;
+	public static boolean isCenterOrNeighborCenter(Coord c) { return isCenterOrNeighborCenter(c.x, c.y); }
+	public static boolean isCenterOrNeighborCenter(int x, int y) {
+		if (!(x==4 || y==4)) return false;
+		return Math.abs(x - y) <= 1;
+	}
+	
+	public static boolean isCenter(Coord c) { return isCenter(c.x, c.y); }
+	public static boolean isCenter(int x, int y) {
+		return x == 4 && y == 4;
 	}
 	
 	public static List<Coord> getCorners() {

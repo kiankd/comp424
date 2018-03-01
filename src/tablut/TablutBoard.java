@@ -1,6 +1,7 @@
 package tablut;
 
 import boardgame.Board;
+import boardgame.BoardPanel;
 import boardgame.BoardState;
 import boardgame.Move;
 
@@ -43,6 +44,11 @@ public class TablutBoard extends Board {
 		return boardState;
 	}
 
+	@Override
+	public BoardPanel createBoardPanel() {
+		return new TablutBoardPanel();
+	}
+	
     @Override
     public String getNameForID(int p) {
         return String.format("Player-%d", p);
