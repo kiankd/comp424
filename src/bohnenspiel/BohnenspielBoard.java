@@ -54,7 +54,7 @@ public class BohnenspielBoard extends Board{
         return board_state.getWinner();
     }
     
-    @Override
+    //@Override
     public int getScore(int player) {
         return board_state.getScore(player);
     }

@@ -16,6 +16,11 @@ public class Coord {
 		this.y = y;
 	}
 	
+	// Computes manhattan distance between this coord and the other.
+	public int distance(Coord c) {
+		return Math.abs(this.x - c.x) + Math.abs(this.y - c.y);
+	}
+	
 	/**
 	 * Returns a list of all the coordinates between this coord
 	 * and another coordinate. Note that it assumes they are

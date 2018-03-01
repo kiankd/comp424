@@ -108,6 +108,7 @@ public class TablutBoardState extends BoardState {
 			board[c.x][c.y] = boardState.board[c.x][c.y];
 		swedeCoords = new HashSet<>(boardState.swedeCoords);
 		muscoviteCoords = new HashSet<>(boardState.muscoviteCoords);
+		kingPosition = boardState.kingPosition;
 		turnPlayer = boardState.turnPlayer;
 		turnNumber = boardState.turnNumber;
 	}
@@ -124,8 +125,6 @@ public class TablutBoardState extends BoardState {
                 "Invalid move for current context. " +
                 "Move: " + m.toPrettyString());
         }
-        
-        int opponent = (turnPlayer == MUSCOVITE) ? SWEDE : MUSCOVITE;
         
         // Process move...
         Coord oldPos = m.getStartPosition();
@@ -178,25 +177,25 @@ public class TablutBoardState extends BoardState {
         	if (getPieceAt(capturedCoord) == Piece.KING) { 
         		kingPosition = null; // the king has been captured!
         	}	
-        	getPlayerCoordSet(opponent).remove(capturedCoord);
+        	getPlayerCoordSet(getOpponent()).remove(capturedCoord);
         	board[capturedCoord.x][capturedCoord.y] = Piece.EMPTY;
         }
         
         // Update internal variables, winner, turn player, and turn number.
         if (turnPlayer != FIRST_PLAYER) turnNumber += 1;
-        turnPlayer = opponent;
+        turnPlayer = getOpponent();
         updateWinner(); // Check if anybody won and update internal variables if so.
 	}
 	
 	// Determines if a player has won by updating internal variable.
 	private void updateWinner() {
-		// Check if king is at corner -- SWEDES WIN!
-		if (Coordinates.isCorner(kingPosition)) {
-			winner = SWEDE;
-		}
 		// Check if the king was captured -- MUSCOVITES WIN!
-		else if (kingPosition == null) {
+		if (kingPosition == null) {
 			winner = MUSCOVITE;
+		}
+		// Check if king is at corner -- SWEDES WIN!
+		else if (Coordinates.isCorner(kingPosition)) {
+			winner = SWEDE;
 		}
 	}
 	
@@ -285,48 +284,48 @@ public class TablutBoardState extends BoardState {
     }
     
     public boolean isLegal(TablutMove move) {
-    		// Make sure that this is the correct player.
-    		if (turnPlayer != move.getPlayerID() || move.getPlayerID() == ILLEGAL) 
-    			return false;
-    		
-    		// Get useful things.
-    		Coord start = move.getStartPosition();
-    		Coord end = move.getEndPosition();
-    		Piece piece = getPieceAt(start); // this will check if the position is on the board
-    		
-    		// Check that the piece being requested actually belongs to the player.
-    		if (piecesToPlayer.get(piece) != turnPlayer)
-    			return false;
-    		
-    		// Next, make sure move doesn't end on a piece.
-    		if (!coordIsEmpty(end))
-    			return false;
-    		
-    		// Next, make sure the move is actually a move.
-    		int coordDiff = start.maxDifference(end);
-    		if (coordDiff == 0)
-    			return false;
-    		
-    		// If we are doing step-movement, make sure the move is only one step.
-    		if (EASY_MOVEMENT && (coordDiff > 1))
-    			return false;
-    		
-    		// Now for the actual game logic. First we make sure it is moving like a rook.
-    		if (!(start.x == end.x || start.y == end.y))
-    			return false;
-    		
-    		// Now we make sure it isn't moving through any other pieces.
-    		for (Coord throughCoordinate : start.getCoordsBetween(end)) {
-    			if (!coordIsEmpty(throughCoordinate))
-    				return false;
-    		}
-    		
-    		// Make sure, if its a corner or center, that the king is the only one able to go there.
-    		if (!pieceIsAllowedAt(end, piece))
-    			return false;
-    		
-    		// All of the conditions have been satisfied, we have a legal move!
-    		return true;
+		// Make sure that this is the correct player.
+		if (turnPlayer != move.getPlayerID() || move.getPlayerID() == ILLEGAL) 
+			return false;
+		
+		// Get useful things.
+		Coord start = move.getStartPosition();
+		Coord end = move.getEndPosition();
+		Piece piece = getPieceAt(start); // this will check if the position is on the board
+		
+		// Check that the piece being requested actually belongs to the player.
+		if (piecesToPlayer.get(piece) != turnPlayer)
+			return false;
+		
+		// Next, make sure move doesn't end on a piece.
+		if (!coordIsEmpty(end))
+			return false;
+		
+		// Next, make sure the move is actually a move.
+		int coordDiff = start.maxDifference(end);
+		if (coordDiff == 0)
+			return false;
+		
+		// If we are doing step-movement, make sure the move is only one step.
+		if (EASY_MOVEMENT && (coordDiff > 1))
+			return false;
+		
+		// Now for the actual game logic. First we make sure it is moving like a rook.
+		if (!(start.x == end.x || start.y == end.y))
+			return false;
+		
+		// Now we make sure it isn't moving through any other pieces.
+		for (Coord throughCoordinate : start.getCoordsBetween(end)) {
+			if (!coordIsEmpty(throughCoordinate))
+				return false;
+		}
+		
+		// Make sure, if its a corner or center, that the king is the only one able to go there.
+		if (!pieceIsAllowedAt(end, piece))
+			return false;
+		
+		// All of the conditions have been satisfied, we have a legal move!
+		return true;
     }
     
     /* ----- Useful helper functions. ----- */
@@ -346,24 +345,23 @@ public class TablutBoardState extends BoardState {
 		return getPieceAt(c) == Piece.EMPTY;
 	}
 	
-	public int numberOfMuscovites() {
-		return muscoviteCoords.size();
+	public int getOpponent() {
+		return (turnPlayer == MUSCOVITE) ? SWEDE : MUSCOVITE;
 	}
 	
-	public int numberOfSwedes() {
-		return swedeCoords.size();
-	}	
-    
+	public int getNumberPlayerPieces(int player) {
+		return getPlayerCoordSet(player).size();
+	}
+
+	public Coord getKingPosition() {
+		return kingPosition;
+	}
+	
 	// If its a king, it can move anywhere. Otherwise, make sure it isn't trying to 
     // move to the center or a corner. 
     private boolean pieceIsAllowedAt(Coord pos, Piece piece) {
     	return piece == Piece.KING || !(Coordinates.isCorner(pos) || Coordinates.isCenter(pos));
     }
-    
-    // Need to check if the king has been captured.
-	private boolean kingIsCaptured() {
-		return false;
-	}
     
     /* ----- Used by server. ----- */
 	@Override
@@ -399,7 +397,7 @@ public class TablutBoardState extends BoardState {
 
 	@Override
 	public boolean gameOver() {
-		return turnNumber > MAX_TURNS;
+		return (turnNumber > MAX_TURNS) || (winner != Board.NOBODY);
 	}
 
 	@Override

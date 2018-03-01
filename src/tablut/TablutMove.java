@@ -51,6 +51,12 @@ public class TablutMove extends Move {
 		return Coordinates.get(this.xEnd, this.yEnd);
 	}
 	
+	public static String getPlayerName(int player) {
+		if (player != TablutBoardState.MUSCOVITE && player != TablutBoardState.SWEDE) 
+			return "Illegal";
+		return (player == TablutBoardState.MUSCOVITE) ? "Muscovites" : "Swedes";
+	}
+	
     /* Members below here are only used by the server; Player agents
      * should not worry about them. */
 	
@@ -76,8 +82,8 @@ public class TablutMove extends Move {
 
 	@Override
 	public String toPrettyString() {
-		return String.format("Player %d moves from (%d, %d) to (%d, %d)", 
-				playerId, xStart, yStart, xEnd, yEnd);
+		return String.format("%s (p%d) move (%d, %d) to (%d, %d)", 
+				getPlayerName(playerId), playerId, xStart, yStart, xEnd, yEnd);
 	}
 
 	@Override

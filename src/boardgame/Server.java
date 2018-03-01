@@ -521,11 +521,11 @@ public class Server implements Runnable {
 
         // Log winner
         switch( board.getWinner() ) {
-            case Board.DRAW:   msg += "DRAW" + "         Player-0 score: " +board.getScore(0) + "  Player-1 score: " +board.getScore(1); break;
+            case Board.DRAW:   msg += "DRAW"; break;
             case Board.NOBODY: msg += "UNDECIDED"; break;
             case Board.CANCELLED0: msg += "CANCELLED 0"; break;
             case Board.CANCELLED1: msg += "CANCELLED 1"; break;
-            default: msg += "WINNER " + board.getWinner() + "         Player-0 score: " +board.getScore(0) + "  Player-1 score: " +board.getScore(1);
+            default: msg += "WINNER " + board.getWinner();
         }
 
         if( gui != null ) new REnded(msg); //gui.gameEnded(msg);

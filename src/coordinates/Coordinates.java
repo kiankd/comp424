@@ -73,6 +73,19 @@ public class Coordinates {
 		}
 	}
 	
+	// Given a coordinate, returns the distance between it and the closest corner.
+	public static int distanceToClosestCorner(Coord kingPos) {
+		List<Coord> corners = getCorners();
+		int minDistance = Integer.MAX_VALUE;
+		for (Coord corner : corners) {
+			int distance = kingPos.distance(corner);
+			if (distance < minDistance) {
+				minDistance = distance;
+			}
+		}
+		return minDistance;
+	}
+	
 	// Lol at the insanity of OOP, two anonymous classes just to iterate!
 	public static Iterable<Coord> iterCoordinates() {		
 		return new Iterable<Coord>() {
