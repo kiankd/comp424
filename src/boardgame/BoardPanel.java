@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 public class BoardPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Board currentBoard = null;
-    private boolean bufferDirty = true;
+    protected boolean bufferDirty = true;
     private Image buffer;
     protected boolean disableDrawingSupport = false;
 

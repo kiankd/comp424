@@ -337,6 +337,10 @@ public class TablutBoardState extends BoardState {
     		return getPieceAt(position.x, position.y);
     }
     
+    public boolean turnPlayerCanMoveFrom(Coord position) {
+    	return piecesToPlayer.get(getPieceAt(position)) == turnPlayer;
+    }
+    
     public boolean isOpponentPieceAt(Coord position) {
     	return !(coordIsEmpty(position)) && piecesToPlayer.get(getPieceAt(position)) != turnPlayer;
     }
