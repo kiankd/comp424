@@ -17,14 +17,14 @@ public class StudentPlayer extends TablutPlayer {
      * The ``boardState`` object contains the current state of the game,
      * which your agent must use to make decisions. */
     public Move chooseMove(TablutBoardState boardState) {
-    	// You probably will make separate functions in MyTools.
-    	// For example, maybe you'll need to load some pre-processed best opening strategies...
-    	MyTools.getSomething(); 
-        
-    	// Is random the best you can do?
-    	Move myMove = boardState.getRandomMove();
+	    	// You probably will make separate functions in MyTools.
+	    	// For example, maybe you'll need to load some pre-processed best opening strategies...
+	    	MyTools.getSomething(); 
+	        
+	    	// Is random the best you can do?
+	    	Move myMove = boardState.getRandomMove();
     	
-    	// Return your move to be processed by the server.
+	    	// Return your move to be processed by the server.
         return myMove;
     }
 }

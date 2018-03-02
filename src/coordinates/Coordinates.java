@@ -117,6 +117,9 @@ public class Coordinates {
 						}
 						return allCoordinates[iOld][jOld];
 					}
+
+					@Override
+					public void remove() { }
 				};
 			}
 		};

@@ -95,3 +95,11 @@
 114,GreedyPlayer,RandomPlayer,0,GreedyPlayer,10,game00114.log,
 115,GreedyPlayer,RandomPlayer,0,GreedyPlayer,14,game00115.log,
 116,RandomPlayer,GreedyPlayer,1,GreedyPlayer,9,game00116.log,
+42,Human,GreedyPlayer,0,Human,7,game00042.log,
+43,GreedyPlayer,GreedyPlayer,0,GreedyPlayer,13,game00043.log,
+44,GreedyPlayer,Human,1,Human,9,game00044.log,
+45,Human,GreedyPlayer,0,Human,6,game00045.log,
+46,Human,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,3,game00046.log,USER CANCEL
+47,RandomPlayer,RandomPlayer,0,RandomPlayer,18,game00047.log,
+48,Human,GreedyPlayer,1,GreedyPlayer,8,game00048.log,
+50,GreedyPlayer,Human,1,Human,14,game00050.log,

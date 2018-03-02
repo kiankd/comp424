@@ -23,7 +23,6 @@ public class TablutBoardState extends BoardState {
 	public static final int MUSCOVITE = 0;
 	public static final int BOARD_SIZE = 9; // 9x9 board for tablut
 	public static final int MAX_TURNS = 50;
-	public static final boolean EASY_MOVEMENT = false;
 	public static enum Piece { BLACK, WHITE, KING, EMPTY }
 	
 	private static HashMap<Piece, String> piecesToSymbols;
@@ -94,18 +93,17 @@ public class TablutBoardState extends BoardState {
 		muscoviteCoords = new HashSet<>();
 		for (Coord c : Coordinates.iterCoordinates()) {
 			Piece piece = getPieceAt(c);
-			if (piecesToPlayer.get(piece) == SWEDE)
-				swedeCoords.add(c);
-			else if (piecesToPlayer.get(piece) == MUSCOVITE)
-				muscoviteCoords.add(c);
+			if (piecesToPlayer.get(piece) == SWEDE) { swedeCoords.add(c); }
+			else if (piecesToPlayer.get(piece) == MUSCOVITE) { muscoviteCoords.add(c); }
 		}
 		kingPosition = Coordinates.get(4, 4);
 	}
 	
 	/* The below method is for the purpose of cloning. */
 	private TablutBoardState(TablutBoardState boardState) {
-		for (Coord c : Coordinates.iterCoordinates())
+		for (Coord c : Coordinates.iterCoordinates()) {
 			board[c.x][c.y] = boardState.board[c.x][c.y];
+		}
 		swedeCoords = new HashSet<>(boardState.swedeCoords);
 		muscoviteCoords = new HashSet<>(boardState.muscoviteCoords);
 		kingPosition = boardState.kingPosition;
@@ -145,44 +143,42 @@ public class TablutBoardState extends BoardState {
         // Now check if a capture occurred. Only a piece next to the new position could have been captured.
         List<Coord> captured = new ArrayList<>();
         for (Coord enemy : Coordinates.getNeighbors(newPos)) {
-        	if (isOpponentPieceAt(enemy)) {
-        		boolean canCapture = true;
-        		
-    			// If the opponent is a king, we need to check if its at the center or the neighbors of center.
-    			// If it is, then it can only be captured on all 4 sides.
-    			if (getPieceAt(enemy) == Piece.KING && Coordinates.isCenterOrNeighborCenter(kingPosition)) {
-    				for (Coord possibleAlly : Coordinates.getNeighbors(enemy)) {
-    					if (getPieceAt(possibleAlly) != Piece.BLACK) {
-    						canCapture = false;
-    						break;
-    					}
-    				}    				
-    			} else { // Otherwise, check for the normal, sandwich-based capture rule.
-    				try {
-	    				Coord sandwichCord = Coordinates.getSandwichCoord(newPos, enemy);
-	    				canCapture = canCaptureWithCoord(sandwichCord);
-    				} catch (CoordinateDoesNotExistException e) {
-    					canCapture = false;
-    				}
-    			}
-    			if (canCapture) {
-    				captured.add(enemy);
-    			}
-        	}
+	        	if (isOpponentPieceAt(enemy)) {
+	        		boolean canCapture = true;
+	        		
+	    			// If the opponent is a king, we need to check if its at the center or the neighbors of center.
+	    			// If it is, then it can only be captured on all 4 sides.
+	    			if (getPieceAt(enemy) == Piece.KING && Coordinates.isCenterOrNeighborCenter(kingPosition)) {
+	    				for (Coord possibleAlly : Coordinates.getNeighbors(enemy)) {
+	    					if (getPieceAt(possibleAlly) != Piece.BLACK) {
+	    						canCapture = false;
+	    						break;
+	    					}
+	    				}    				
+	    			} else { // Otherwise, check for the normal, sandwich-based capture rule.
+	    				try {
+		    				Coord sandwichCord = Coordinates.getSandwichCoord(newPos, enemy);
+		    				canCapture = canCaptureWithCoord(sandwichCord);
+	    				} catch (CoordinateDoesNotExistException e) {
+	    					canCapture = false;
+	    				}
+	    			}
+	    			if (canCapture) {
+	    				captured.add(enemy);
+	    			}
+	        	}
         }
         
         // Slaughter the captured enemies... like pigs. Or more like remove object memory addresses... same thing.
         // Note, it is possible for multiple pieces to be captured at once, so we have a list of them.
         for (Coord capturedCoord : captured) {
-        	if (getPieceAt(capturedCoord) == Piece.KING) { 
-        		kingPosition = null; // the king has been captured!
-        	}	
-        	getPlayerCoordSet(getOpponent()).remove(capturedCoord);
-        	board[capturedCoord.x][capturedCoord.y] = Piece.EMPTY;
+	        	if (getPieceAt(capturedCoord) == Piece.KING) { kingPosition = null; } // the king has been captured!
+	        	getPlayerCoordSet(getOpponent()).remove(capturedCoord);
+	        	board[capturedCoord.x][capturedCoord.y] = Piece.EMPTY;
         }
         
         // Update internal variables, winner, turn player, and turn number.
-        if (turnPlayer != FIRST_PLAYER) turnNumber += 1;
+        if (turnPlayer != FIRST_PLAYER) { turnNumber += 1; }
         turnPlayer = getOpponent();
         updateWinner(); // Check if anybody won and update internal variables if so.
 	}
@@ -217,67 +213,60 @@ public class TablutBoardState extends BoardState {
 		
 		// Check that the piece being requested actually belongs to the player.
         Piece piece = getPieceAt(start);
-		if (piecesToPlayer.get(piece) != turnPlayer)
-			return legalMoves;
+		if (piecesToPlayer.get(piece) != turnPlayer) { return legalMoves; } 
         
         // Iterate along 4 directions.
         List<Coord> goodCoords = new ArrayList<>();
         for (int incr : Arrays.asList(-1, 1)) {
-        	goodCoords.addAll(getLegalCoordsInDirection(start, incr, 0)); // move in x direction
-        	goodCoords.addAll(getLegalCoordsInDirection(start, 0, incr)); // move in y direction
+	        	goodCoords.addAll(getLegalCoordsInDirection(start, incr, 0)); // move in x direction
+	        	goodCoords.addAll(getLegalCoordsInDirection(start, 0, incr)); // move in y direction
         }
         
         /* Add the real moves now. We do not call isLegal here; this is because we efficiently 
          * enforce legality by only adding those that are legal. This makes for a more efficient 
          * method so people aren't slowed down by just figuring out what they can do. */
         for (Coord end : goodCoords) {
-        	if (pieceIsAllowedAt(end, piece)) // only king moves to corner or center, so need to check.
-        		legalMoves.add(new TablutMove(start, end, this.turnPlayer));
+	        	if (pieceIsAllowedAt(end, piece)) {// only king moves to corner or center, so need to check.
+	        		legalMoves.add(new TablutMove(start, end, this.turnPlayer));
+	        	}
         }
         return legalMoves;
     }
     
     private List<Coord> getLegalCoordsInDirection(Coord start, int x, int y) {
-    	ArrayList<Coord> coords = new ArrayList<>();
-    	assert(!(x!=0 && y!=0));
-    	int startPos = (x!=0) ? start.x : start.y; //starting at x or y
-    	int incr = (x!=0) ? x : y; // incrementing the x or y value
-    	int endIdx = (incr == 1) ? BOARD_SIZE-1 : 0; // moving in the 0 or 8 direction
-    	for(int i=startPos+incr; incr * i <= endIdx; i+=incr) { // increasing/decreasing functionality
-    		// new coord is an x coord change or a y coord change
-    		Coord coord = (x!=0) ? Coordinates.get(i, start.y) : Coordinates.get(start.x, i);
-    		if (coordIsEmpty(coord))
-    			coords.add(coord);
-    		else
-    			break;
-    	}
-    	return coords;
+	    	ArrayList<Coord> coords = new ArrayList<>();
+	    	assert(!(x!=0 && y!=0));
+	    	int startPos = (x!=0) ? start.x : start.y; //starting at x or y
+	    	int incr = (x!=0) ? x : y; // incrementing the x or y value
+	    	int endIdx = (incr == 1) ? BOARD_SIZE-1 : 0; // moving in the 0 or 8 direction
+	    	
+	    	for(int i=startPos+incr; incr * i <= endIdx; i+=incr) { // increasing/decreasing functionality
+	    		// new coord is an x coord change or a y coord change
+	    		Coord coord = (x!=0) ? Coordinates.get(i, start.y) : Coordinates.get(start.x, i);
+	    		if (coordIsEmpty(coord)) { coords.add(coord); }
+	    		else { break; }
+	    	}
+	    	return coords;
     }
     
     // Determines whether or not this coord is a valid coord we can sandwich with.
     private boolean canCaptureWithCoord(Coord c) {
-    	if (Coordinates.isCorner(c) || Coordinates.isCenter(c))
-    		return true;
-    	if (piecesToPlayer.get(getPieceAt(c)) == turnPlayer)
-    		return true;
-    	return false;
+	    	return Coordinates.isCorner(c) || Coordinates.isCenter(c) || piecesToPlayer.get(getPieceAt(c)) == turnPlayer;
     }
     
     // Returns all of the coordinates of pieces belonging to the current player.
     public List<Coord> getPlayerPieceCoordinates() {
-		if (turnPlayer == MUSCOVITE)
-			return new ArrayList<Coord>(muscoviteCoords); // copy the list so no funny business
-		else if (turnPlayer == SWEDE)
-			return new ArrayList<Coord>(swedeCoords);	
+		if (turnPlayer == MUSCOVITE) { return new ArrayList<Coord>(muscoviteCoords); } // copy so no funny business
+		else if (turnPlayer == SWEDE) { return new ArrayList<Coord>(swedeCoords); }	
 		return null;
     }
     
     private HashSet<Coord> getPlayerCoordSet() {
-    	return (turnPlayer == MUSCOVITE) ? muscoviteCoords : swedeCoords;
+    		return (turnPlayer == MUSCOVITE) ? muscoviteCoords : swedeCoords;
     }
     
     private HashSet<Coord> getPlayerCoordSet(int player) {
-    	return (player == MUSCOVITE) ? muscoviteCoords : swedeCoords;
+    		return (player == MUSCOVITE) ? muscoviteCoords : swedeCoords;
     }
     
     public boolean isLegal(TablutMove move) {
@@ -301,10 +290,6 @@ public class TablutBoardState extends BoardState {
 		// Next, make sure the move is actually a move.
 		int coordDiff = start.maxDifference(end);
 		if (coordDiff == 0)
-			return false;
-		
-		// If we are doing step-movement, make sure the move is only one step.
-		if (EASY_MOVEMENT && (coordDiff > 1))
 			return false;
 		
 		// Now for the actual game logic. First we make sure it is moving like a rook.
@@ -361,7 +346,7 @@ public class TablutBoardState extends BoardState {
 	// If its a king, it can move anywhere. Otherwise, make sure it isn't trying to 
     // move to the center or a corner. 
     private boolean pieceIsAllowedAt(Coord pos, Piece piece) {
-    	return piece == Piece.KING || !(Coordinates.isCorner(pos) || Coordinates.isCenter(pos));
+    		return piece == Piece.KING || !(Coordinates.isCorner(pos) || Coordinates.isCenter(pos));
     }
     
     /* ----- Used by server. ----- */
