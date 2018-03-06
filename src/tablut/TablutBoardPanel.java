@@ -193,11 +193,11 @@ public class TablutBoardPanel extends BoardPanel implements MouseListener, Mouse
         } else { // Then the piece was already clicked on, and now we want to actually move it.
             TablutBoardState bs = (TablutBoardState) getCurrentBoard().getBoardState();
             Coord destination = null;
-            for (Coord c : Coordinates.iterCoordinates()) { // not efficient, but its okay.
+            for (Coord c : Coordinates.iterCoordinates()) { // not efficient, but its okay, just a GUI.
                 if (bs.coordIsEmpty(c)) {
                     int xPos = c.y * SQUARE_SIZE + SQUARE_SIZE / 2; // have to switch x and y.
                     int yPos = c.x * SQUARE_SIZE + SQUARE_SIZE / 2;
-                    if (clickInCircle(clickX, clickY, xPos, yPos)) {
+                    if (clickInSquare(clickX, clickY, xPos, yPos)) {
                         destination = c;
                         break;
                     }
@@ -237,10 +237,14 @@ public class TablutBoardPanel extends BoardPanel implements MouseListener, Mouse
         }
     }
 
-    public static boolean clickInCircle(int x, int y, int cx, int cy) {
+    private static boolean clickInCircle(int x, int y, int cx, int cy) {
         return Math.pow(cx - x, 2) + Math.pow(cy - y, 2) < Math.pow(PIECE_SIZE / 2, 2);
     }
 
+    private static boolean clickInSquare(int x, int y, int cx, int cy) {
+        return Math.abs(x - cx) < SQUARE_SIZE / 2 && Math.abs(y - cy) < SQUARE_SIZE / 2;
+    }
+    
     /* Don't use these interface methods */
     public void mouseDragged(MouseEvent e) {
     }

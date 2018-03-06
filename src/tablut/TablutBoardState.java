@@ -15,8 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import org.omg.CORBA.TRANSACTION_UNAVAILABLE;
-
 public class TablutBoardState extends BoardState {
 
     /* Useful constants. */
@@ -124,9 +122,8 @@ public class TablutBoardState extends BoardState {
         return new TablutBoardState(this);
     }
 
-    /*
-     * ----- Here and below are for dealing with moves, and processing captures.
-     * -----
+    /**
+     * Here and below are for dealing with moves, and processing captures.
      */
     public void processMove(TablutMove m) throws IllegalArgumentException {
         if (!isLegal(m)) { // isLegal checks if the player is the correct player.
@@ -294,6 +291,13 @@ public class TablutBoardState extends BoardState {
         return new HashSet<Coord>(getPlayerCoordSet(turnPlayer)); // Copy the set so no funny business.
     }
 
+    public HashSet<Coord> getOpponentPieceCoordinates() {
+        if (turnPlayer != MUSCOVITE && turnPlayer != SWEDE) {
+            return null;
+        } 
+        return new HashSet<Coord>(getPlayerCoordSet(getOpponent())); // Copy the set so no funny business.
+    }
+    
     private HashSet<Coord> getPlayerCoordSet() {
         return getPlayerCoordSet(turnPlayer);
     }

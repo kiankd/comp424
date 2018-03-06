@@ -49,7 +49,7 @@ import java.awt.EventQueue;
  */
 public class Server implements Runnable {
     protected static final String VERSION = "0.08";
-    protected static final int DEFAULT_PORT = 6000;
+    protected static final int DEFAULT_PORT = 8123;
 
     public static final int DEFAULT_TIMEOUT = 700;
     private static final int DEFAULT_TIMEOUT_CUSHION = 1000;
