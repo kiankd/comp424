@@ -19,44 +19,40 @@ import java.io.IOException;
 // to test. For example to have StudentPlayer play against itself, you would
 // change ``client2_line`` to be equal to ``client1_line``.
 //
-public class Autoplay
-{
-    public static void main(String args[])
-    {
+public class Autoplay {
+    public static void main(String args[]) {
         int n_games;
-        try{
+        try {
             n_games = Integer.parseInt(args[0]);
-            if(n_games < 1) {
+            if (n_games < 1) {
                 throw new Exception();
             }
         } catch (Exception e) {
             System.err.println(
-                "First argument to Autoplay must be a positive int "
-                + "giving the number of games to play.");
+                    "First argument to Autoplay must be a positive int " + "giving the number of games to play.");
             return;
         }
 
         try {
-            ProcessBuilder server_pb = new ProcessBuilder(
-                "java", "-cp", "bin",  "boardgame.Server", "-ng", "-k");
+            ProcessBuilder server_pb = new ProcessBuilder("java", "-cp", "bin", "boardgame.Server", "-ng", "-k");
             server_pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 
             Process server = server_pb.start();
 
-            ProcessBuilder client1_pb = new ProcessBuilder(
-                "java", "-cp", "bin", "-Xms520m", "-Xmx520m", "boardgame.Client", "student_player.StudentPlayer");
+            ProcessBuilder client1_pb = new ProcessBuilder("java", "-cp", "bin", "-Xms520m", "-Xmx520m",
+                    "boardgame.Client", "student_player.StudentPlayer");
             client1_pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 
-            ProcessBuilder client2_pb = new ProcessBuilder(
-                "java", "-cp", "bin", "-Xms520m", "-Xmx520m", "boardgame.Client", "tablut.RandomPlayer");
+            ProcessBuilder client2_pb = new ProcessBuilder("java", "-cp", "bin", "-Xms520m", "-Xmx520m",
+                    "boardgame.Client", "tablut.RandomPlayer");
             client2_pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 
-            for (int i=0; i < n_games; i++) {
-                System.out.println("Game "+i);
+            for (int i = 0; i < n_games; i++) {
+                System.out.println("Game " + i);
 
                 try {
                     Thread.sleep(500);
-                } catch(InterruptedException ex) {
+                } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
 
@@ -64,19 +60,19 @@ public class Autoplay
 
                 try {
                     Thread.sleep(500);
-                } catch(InterruptedException ex) {
+                } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
 
                 Process client2 = ((i % 2 == 0) ? client2_pb.start() : client1_pb.start());
 
-                try{
+                try {
                     client1.waitFor();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                try{
+                try {
                     client2.waitFor();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

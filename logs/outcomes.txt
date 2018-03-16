@@ -124,3 +124,11 @@
 71,xxxxxxxxx,xxxxxxxxx,GAMEOVER DRAW,NOBODY,51,game00071.log,
 72,xxxxxxxxx,xxxxxxxxx,GAMEOVER DRAW,NOBODY,51,game00072.log,
 73,Human,GreedyPlayer,0,Human,5,game00073.log,
+130,Human,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,19,game00130.log,USER CANCEL
+131,Human,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,19,game00131.log,USER CANCEL
+133,Human,Human,1,Human,1,game00133.log,
+135,Human,Human,0,Human,4,game00135.log,
+136,Human,Human,1,Human,23,game00136.log,
+137,Human,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,3,game00137.log,USER CANCEL
+138,Human,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,31,game00138.log,USER CANCEL
+139,Human,Human,0,Human,32,game00139.log,

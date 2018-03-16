@@ -158,7 +158,7 @@ public class TablutBoardState extends BoardState {
                 // If it is, then it can only be captured on all 4 sides.
                 if (getPieceAt(enemy) == Piece.KING && Coordinates.isCenterOrNeighborCenter(kingPosition)) {
                     for (Coord possibleAlly : Coordinates.getNeighbors(enemy)) {
-                        if (getPieceAt(possibleAlly) != Piece.BLACK) {
+                        if (getPieceAt(possibleAlly) != Piece.BLACK && !Coordinates.isCenter(possibleAlly)) {
                             canCapture = false;
                             break;
                         }
@@ -200,13 +200,21 @@ public class TablutBoardState extends BoardState {
     // Determines if a player has won by updating internal variable.
     private void updateWinner() {
         // Check if the king was captured -- MUSCOVITES WIN!
-        if (kingPosition == null) {
+        // Also checking if the swedes even have any legal moves at all. If not, they
+        // lose.
+        if (kingPosition == null || !playerHasALegalMove(SWEDE)) {
             winner = MUSCOVITE;
         }
+
         // Check if king is at corner -- SWEDES WIN!
-        else if (Coordinates.isCorner(kingPosition)) {
+        // Also checking if the muscovites even have any legal moves at all. If not,
+        // they lose.
+        else if (Coordinates.isCorner(kingPosition) || !playerHasALegalMove(MUSCOVITE)) {
             winner = SWEDE;
-        } else if (gameOver()) {
+        }
+
+        // If the turn limit is reached then it's a draw.
+        else if (gameOver()) {
             winner = Board.DRAW;
         }
     }
@@ -221,6 +229,29 @@ public class TablutBoardState extends BoardState {
             allMoves.addAll(getLegalMovesForPosition(pos));
         }
         return allMoves;
+    }
+
+    /**
+     * Check if there are any legal moves for the player.
+     */
+    private boolean playerHasALegalMove(int player) {
+        for (Coord c : getPlayerCoordSet(player)) {
+            for (Coord neighbor : Coordinates.getNeighbors(c)) {
+                if (coordIsEmpty(neighbor)) {
+                    if (pieceIsAllowedAt(neighbor, getPieceAt(c))) {
+                        return true;
+                    }
+                    // Need another convoluted check just in case it is the center.
+                    if (Coordinates.isCenter(neighbor)) {
+                        int xDiff = neighbor.x - c.x;
+                        int yDiff = neighbor.y - c.y;
+                        if (coordIsEmpty(Coordinates.get(neighbor.x + xDiff, neighbor.y + yDiff)))
+                            return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -240,10 +271,10 @@ public class TablutBoardState extends BoardState {
 
         // Iterate along 4 directions.
         List<Coord> goodCoords = new ArrayList<>();
-        for (int incr : Arrays.asList(-1, 1)) {
-            goodCoords.addAll(getLegalCoordsInDirection(start, incr, 0)); // move in x direction
-            goodCoords.addAll(getLegalCoordsInDirection(start, 0, incr)); // move in y direction
-        }
+        goodCoords.addAll(getLegalCoordsInDirection(start, -1, 0)); // move in -x direction
+        goodCoords.addAll(getLegalCoordsInDirection(start, 0, -1)); // move in -y direction
+        goodCoords.addAll(getLegalCoordsInDirection(start, 1, 0)); // move in +x direction
+        goodCoords.addAll(getLegalCoordsInDirection(start, 0, 1)); // move in +y direction
 
         /*
          * Add the real moves now. We do not call isLegal here; this is because we
@@ -287,17 +318,17 @@ public class TablutBoardState extends BoardState {
     public HashSet<Coord> getPlayerPieceCoordinates() {
         if (turnPlayer != MUSCOVITE && turnPlayer != SWEDE) {
             return null;
-        } 
+        }
         return new HashSet<Coord>(getPlayerCoordSet(turnPlayer)); // Copy the set so no funny business.
     }
 
     public HashSet<Coord> getOpponentPieceCoordinates() {
         if (turnPlayer != MUSCOVITE && turnPlayer != SWEDE) {
             return null;
-        } 
+        }
         return new HashSet<Coord>(getPlayerCoordSet(getOpponent())); // Copy the set so no funny business.
     }
-    
+
     private HashSet<Coord> getPlayerCoordSet() {
         return getPlayerCoordSet(turnPlayer);
     }

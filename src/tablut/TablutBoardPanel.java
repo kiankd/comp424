@@ -244,7 +244,7 @@ public class TablutBoardPanel extends BoardPanel implements MouseListener, Mouse
     private static boolean clickInSquare(int x, int y, int cx, int cy) {
         return Math.abs(x - cx) < SQUARE_SIZE / 2 && Math.abs(y - cy) < SQUARE_SIZE / 2;
     }
-    
+
     /* Don't use these interface methods */
     public void mouseDragged(MouseEvent e) {
     }
