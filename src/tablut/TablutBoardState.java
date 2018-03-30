@@ -22,7 +22,7 @@ public class TablutBoardState extends BoardState {
     public static final int SWEDE = 1;
     public static final int MUSCOVITE = 0;
     public static final int BOARD_SIZE = 9; // 9x9 board for tablut
-    public static final int MAX_TURNS = 50;
+    public static final int MAX_TURNS = 49;
 
     public static enum Piece {
         BLACK, WHITE, KING, EMPTY
@@ -55,7 +55,7 @@ public class TablutBoardState extends BoardState {
     private Coord kingPosition;
     private Random rand = new Random(1917);
     private int turnPlayer;
-    private int turnNumber = 1;
+    private int turnNumber = 0;
     private int winner = Board.NOBODY;
 
     // Initial Board State creation. The genesis constructor.
