@@ -115,6 +115,7 @@ public class TablutBoardState extends BoardState {
         kingPosition = boardState.kingPosition;
         turnPlayer = boardState.turnPlayer;
         turnNumber = boardState.turnNumber;
+        winner = boardState.getWinner(); 
     }
 
     @Override
